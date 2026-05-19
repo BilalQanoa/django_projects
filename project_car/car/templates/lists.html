@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+    <h1 class="h2 text-dark"><i class="bi bi-car-front me-2"></i>Car Directory</h1>
+    <a href="{% url 'add' %}" class="btn btn-primary shadow-sm"><i class="bi bi-plus-lg me-1"></i> Add New Car</a>
+</div>
+
+{% if lists %}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for car in lists %}
+    <div class="col">
+        <div class="card h-100 card-hover border-0 shadow-sm rounded-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title text-primary mb-0 fw-bold">{{ car.name }}</h5>
+                    <span class="badge bg-secondary rounded-pill">#{{ car.id }}</span>
+                </div>
+                <h6 class="card-subtitle mb-3 text-muted">
+                    <i class="bi bi-calendar-event me-1"></i> Year: {{ car.year }}
+                </h6>
+                <div class="d-flex mt-4 gap-2">
+                    <form action="{% url 'delete' %}" method="post" class="w-100">
+                        {% csrf_token %}
+                        <input type="hidden" name="car_id" value="{{ car.id }}">
+                        <button type="submit" class="btn btn-outline-danger w-100 btn-sm">
+                            <i class="bi bi-trash me-1"></i> Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info text-center py-5 shadow-sm rounded-3" role="alert">
+    <i class="bi bi-info-circle display-4 d-block mb-3"></i>
+    <h4 class="alert-heading">No cars found!</h4>
+    <p class="mb-0">Your garage is currently empty. Click the 'Add New Car' button above to get started.</p>
+</div>
+{% endif %}
+{% endblock %}
