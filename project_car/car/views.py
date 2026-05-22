@@ -2,6 +2,8 @@
 from django.shortcuts import render, redirect
 from car.models import Car
 from django.views import generic
+from .forms import AddCarForm
+
 
 # CBV:
 class Lists (generic.ListView):
@@ -23,11 +25,12 @@ class Delete (generic.View):
             pass
         return redirect('lists')
 
+
 class Add (generic.CreateView):
     model = Car
     template_name = 'add.html'
     success_url = '/'
-    fields = '__all__'
+    form_class = AddCarForm
 
 
 
