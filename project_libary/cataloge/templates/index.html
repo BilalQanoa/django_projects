@@ -10,5 +10,18 @@
     <p>total books: {{num_books}}</p>
     <p>total Inatance books: {{num_books_instance}}</p>
     <p>total avalaible books: {{num_books_avaliable}}</p>
+
+    {% if request.user.is_authenticated %}
+    <p>welcome {{ user.username }}</p>
+    <form action="{% url 'logout' %}?next=/accounts/login" method="post">
+        {% csrf_token %}
+        <input type="submit" value="logout">
+        <a href="{% url 'change-pass' %}">change-pass</a>
+    </form>
+    {% else %}
+    <p>you are loged out</p>
+    <a href="{% url 'login' %}?next={{request.path}}">LOGIN</a>
+    {% endif %}
+
 </body>
 </html>
